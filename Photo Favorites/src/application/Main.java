@@ -12,7 +12,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
 			primaryStage.setTitle("Photo Favorites");
-			primaryStage.setScene(new Scene(root, 600, 400));
+			primaryStage.setScene(new Scene(root, 750, 500));
 			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
