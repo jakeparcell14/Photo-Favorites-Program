@@ -179,9 +179,10 @@ public class MainScreenController implements Initializable
 			{
 				File original = new File(FilepathTextField.getText() + "\\" + imageName);
 							
-				System.out.println(favoritesFilepath + "\\" + imageName);
+				Files.copy(original.toPath(), (new File(favoritesFilepath + "\\" + imageName)).toPath());
+				
 				//create copy of original image file and put copy in the favorites folder
-				original.renameTo(new File(favoritesFilepath + "\\" + imageName));
+				//original.renameTo(new File(favoritesFilepath + "\\" + imageName));
 			}
 			catch(SecurityException e)
 			{
@@ -209,6 +210,9 @@ public class MainScreenController implements Initializable
 					//add error to results text
 					ResultsTextArea.setText(ResultsTextArea.getText() +  ", " + imageName);
 				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
