@@ -1,12 +1,9 @@
 package application;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -122,7 +119,7 @@ public class MainScreenController implements Initializable
 			try
 			{
 				//test if entry is an integer
-				int test = Integer.parseInt(entryText[i]);
+				Integer.parseInt(entryText[i]);
 
 				//exception wasn't thrown so it is a valid integer value
 				entries.add(entryText[i]);
