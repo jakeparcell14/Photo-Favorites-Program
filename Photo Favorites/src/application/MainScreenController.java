@@ -73,6 +73,9 @@ public class MainScreenController implements Initializable
 		ResultsTextArea.setText("");
 
 		ArrayList<String> entries = getEntries();
+		
+		//take valid entries and convert them into actual file names
+		formatEntries(entries);
 
 		String filePath = FilepathTextField.getText();
 
@@ -125,5 +128,26 @@ public class MainScreenController implements Initializable
 
 
 		return entries;
+	}
+	
+	public void formatEntries(ArrayList<String> entries)
+	{
+		String format = "";
+		
+		if(RAWToggleButton.isSelected())
+		{
+			//images are RAW files
+			format = ".CR2";
+		}
+		else
+		{
+			//images are JPEG files
+			format = ".jpg";
+		}
+		
+		for(int i = 0; i < entries.size(); i++)
+		{
+			entries.set(i, "IMG_" + entries.get(i) + format);
+		}
 	}
 }
