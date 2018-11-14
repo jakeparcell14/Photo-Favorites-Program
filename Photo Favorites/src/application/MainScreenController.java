@@ -1,6 +1,11 @@
 package application;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -73,11 +78,20 @@ public class MainScreenController implements Initializable
 		ResultsTextArea.setText("");
 
 		ArrayList<String> entries = getEntries();
-		
+
 		//take valid entries and convert them into actual file names
 		formatEntries(entries);
 
-		String filePath = FilepathTextField.getText();
+		String favoritesPath = FilepathTextField.getText() + "\\favorites";
+
+		if(createFavoritesFolder(favoritesPath))
+		{
+			transferPhotos(favoritesPath, entries);
+		}
+		else
+		{
+			ResultsTextArea.setText(ResultsTextArea.getText() + "\n ERROR: Problem Creating favorites folder \n");
+		}
 
 	}
 
@@ -126,14 +140,13 @@ public class MainScreenController implements Initializable
 		//add some space between errors and other results
 		ResultsTextArea.setText(ResultsTextArea.getText() + "\n\n");
 
-
 		return entries;
 	}
-	
+
 	public void formatEntries(ArrayList<String> entries)
 	{
 		String format = "";
-		
+
 		if(RAWToggleButton.isSelected())
 		{
 			//images are RAW files
@@ -144,10 +157,59 @@ public class MainScreenController implements Initializable
 			//images are JPEG files
 			format = ".jpg";
 		}
-		
+
 		for(int i = 0; i < entries.size(); i++)
 		{
 			entries.set(i, "IMG_" + entries.get(i) + format);
+		}
+	}
+
+	public boolean createFavoritesFolder(String filePath)
+	{
+		File favoritesFolder = new File(filePath);
+		return favoritesFolder.mkdirs();
+	}
+
+	public void transferPhotos(String favoritesFilepath, ArrayList<String> entries)
+	{
+		//create copies of each file and put a copy of each file in the favorites folder
+		for(String imageName : entries)
+		{
+			try
+			{
+				File original = new File(FilepathTextField.getText() + "\\" + imageName);
+							
+				System.out.println(favoritesFilepath + "\\" + imageName);
+				//create copy of original image file and put copy in the favorites folder
+				original.renameTo(new File(favoritesFilepath + "\\" + imageName));
+			}
+			catch(SecurityException e)
+			{
+				if(!ResultsTextArea.getText().contains("Error copying and tranfering entries:"))
+				{
+					// initialize results text
+					ResultsTextArea.setText("Error copying and tranfering entries: \n" + imageName);
+				}
+				else
+				{
+					//add error to results text
+					ResultsTextArea.setText(ResultsTextArea.getText() +  ", " + imageName);
+				}
+			}
+			catch(NullPointerException e)
+			{
+				// The file does not exist
+				if(!ResultsTextArea.getText().contains("Error copying and tranfering entries:"))
+				{
+					// initialize results text
+					ResultsTextArea.setText("Error copying and tranfering entries: \n" + imageName);
+				}
+				else
+				{
+					//add error to results text
+					ResultsTextArea.setText(ResultsTextArea.getText() +  ", " + imageName);
+				}
+			}
 		}
 	}
 }
