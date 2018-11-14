@@ -74,6 +74,12 @@ public class MainScreenController implements Initializable
 	{
 		// reset results text
 		ResultsTextArea.setText("");
+		
+		if(FilepathTextField.getText().isEmpty())
+		{
+			ResultsTextArea.setText("No File Path entered");
+			return;
+		}
 
 		ArrayList<String> entries = getEntries();
 
