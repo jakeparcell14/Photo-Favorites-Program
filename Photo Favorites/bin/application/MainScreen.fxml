@@ -16,7 +16,7 @@
             <Font size="37.5" />
          </font>
       </Label>
-      <TextArea fx:id="UserEntryTextArea" layoutX="50" layoutY="192.5" prefHeight="182.5" prefWidth="312.5" promptText="ex. 6524 1234 5678" wrapText="true" />
+      <TextArea fx:id="UserEntryTextArea" layoutX="50" layoutY="192.5" onKeyPressed="#OnKeyPressed" prefHeight="182.5" prefWidth="312.5" promptText="ex. 6524 1234 5678" wrapText="true" />
       <TextArea fx:id="ResultsTextArea" editable="false" focusTraversable="false" layoutX="387.5" layoutY="192.5" prefHeight="182.5" prefWidth="312.5" wrapText="true" />
       <Label layoutX="146.25" layoutY="167.5" text="Photo Numbers">
          <font>

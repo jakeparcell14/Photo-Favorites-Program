@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyEvent;
 
 public class MainScreenController implements Initializable
 {
@@ -74,7 +75,7 @@ public class MainScreenController implements Initializable
 	{
 		// reset results text
 		ResultsTextArea.setText("");
-		
+
 		if(FilepathTextField.getText().isEmpty())
 		{
 			ResultsTextArea.setText("No File Path entered");
@@ -91,7 +92,7 @@ public class MainScreenController implements Initializable
 		if(createFavoritesFolder(favoritesPath))
 		{
 			transferPhotos(favoritesPath, entries);
-			
+
 			if(ResultsTextArea.getText().isEmpty())
 			{
 				ResultsTextArea.setText("File Transfer Successful!");
@@ -219,6 +220,43 @@ public class MainScreenController implements Initializable
 					//add error to results text
 					ResultsTextArea.setText(ResultsTextArea.getText() +  "\n" + imageName + " does not exist");
 				}
+			}
+		}
+	}
+
+	/**
+	 * This function will detect if a user has entered a four digit code and will add a space afterwards
+	 * @param event
+	 */
+	@FXML
+	public void OnKeyPressed(KeyEvent event)
+	{
+		if(UserEntryTextArea.isFocused())
+		{
+			try
+			{
+				// checks if key was an integer, throws exception if the key is not an integer
+				String typedNumber = Integer.toString(Integer.parseInt(event.getText()));
+
+				//get cursor position before the number was entered
+				int cursorPosition = UserEntryTextArea.getCaretPosition();
+
+				if(cursorPosition >= 4)
+				{
+					String mostRecentEntry = UserEntryTextArea.getText().substring(cursorPosition - 4, cursorPosition);
+
+					// makes sure that the last three characters were integers, throws exception if any of the last three characters are not integers
+					Integer.parseInt(mostRecentEntry);
+					
+					System.out.println("valid");
+					UserEntryTextArea.appendText(" ");
+					event.consume();
+					
+				}
+			}
+			catch(NumberFormatException e)
+			{
+
 			}
 		}
 	}
